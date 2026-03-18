@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>세아제강 경영기획 포트폴리오</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  :root {
+    --navy: #1B2A4A;
+    --dark-navy: #0F1B32;
+    --steel-blue: #3B6B9C;
+    --accent: #2E86AB;
+    --light-blue: #A8D0E6;
+    --pale-blue: #E8F1F8;
+    --off-white: #F5F7FA;
+    --light-gray: #E2E8F0;
+    --mid-gray: #94A3B8;
+    --dark-gray: #475569;
+    --text-dark: #1E293B;
+    --text-mid: #64748B;
+    --red: #DC2626;
+    --green: #16A34A;
+    --orange: #EA580C;
+    --amber: #D97706;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+    background: var(--off-white);
+    color: var(--text-dark);
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--dark-navy);
+    border-bottom: 3px solid var(--accent);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 2rem;
+    height: 56px;
+  }
+  nav .logo {
+    color: #fff; font-weight: 700; font-size: 1rem; white-space: nowrap;
+  }
+  nav .logo span { color: var(--accent); }
+  nav a {
+    color: var(--light-blue); text-decoration: none; font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: #fff; }
+  .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--dark-navy) 0%, var(--navy) 100%);
+    padding: 7rem 2rem 4rem;
+    text-align: center; color: #fff;
+  }
+  .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .hero h1 span { color: var(--accent); }
+  .hero p { color: var(--light-blue); font-size: 1.1rem; margin-bottom: 1.5rem; }
+  .hero-badges { display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; }
+  .hero-badges span {
+    border: 1px solid var(--accent); color: var(--light-blue);
+    padding: 0.35rem 1rem; border-radius: 20px; font-size: 0.85rem;
+  }
+
+  /* SECTIONS */
+  section { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
+  .section-divider {
+    background: var(--navy); padding: 2.5rem 2rem; text-align: center;
+    color: #fff; max-width: 100%; margin: 0;
+  }
+  .section-divider .num { font-size: 3rem; color: var(--accent); font-weight: 700; }
+  .section-divider h2 { font-size: 1.8rem; margin: 0.3rem 0; }
+  .section-divider p { color: var(--light-blue); font-size: 0.95rem; }
+
+  h3 {
+    font-size: 1.3rem; color: var(--text-dark); margin-bottom: 1rem;
+    border-left: 4px solid var(--accent); padding-left: 0.8rem;
+  }
+  .subtitle { color: var(--text-mid); font-size: 0.85rem; margin-bottom: 1.5rem; }
+
+  /* GRID */
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+
+  /* CARDS */
+  .card {
+    background: #fff; border-radius: 8px; padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .card-accent { border-top: 3px solid var(--accent); }
+  .card-navy { border-top: 3px solid var(--navy); }
+  .card-orange { border-top: 3px solid var(--orange); }
+  .card-green { border-top: 3px solid var(--green); }
+  .card-red { border-top: 3px solid var(--red); }
+
+  /* KPI CARDS */
+  .kpi-card { text-align: center; }
+  .kpi-card .label { font-size: 0.85rem; color: var(--text-mid); margin-bottom: 0.3rem; }
+  .kpi-card .value { font-size: 2rem; font-weight: 700; color: var(--text-dark); }
+  .kpi-card .unit { font-size: 0.9rem; color: var(--text-mid); font-weight: 400; }
+  .kpi-card .change { font-size: 0.85rem; margin-top: 0.3rem; font-weight: 600; }
+  .kpi-card .change.down { color: var(--red); }
+  .kpi-card .change.up { color: var(--green); }
+
+  /* TABLES */
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th {
+    background: var(--navy); color: #fff; padding: 0.6rem 0.8rem;
+    text-align: center; font-weight: 600;
+  }
+  td {
+    padding: 0.55rem 0.8rem; text-align: center;
+    border-bottom: 1px solid var(--light-gray);
+  }
+  tr:nth-child(even) td { background: var(--pale-blue); }
+  .text-red { color: var(--red); font-weight: 600; }
+  .text-green { color: var(--green); font-weight: 600; }
+
+  /* SWOT */
+  .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+  .swot-card { padding: 1rem 1.2rem; border-radius: 8px; }
+  .swot-card h4 { margin-bottom: 0.5rem; font-size: 1rem; }
+  .swot-card ul { padding-left: 1.2rem; font-size: 0.9rem; }
+  .swot-s { background: #EFF6FF; border-left: 4px solid var(--accent); }
+  .swot-w { background: #FFF7ED; border-left: 4px solid var(--orange); }
+  .swot-o { background: #F0FDF4; border-left: 4px solid var(--green); }
+  .swot-t { background: #FEF2F2; border-left: 4px solid var(--red); }
+
+  /* STRATEGY */
+  .strategy-card h4 { color: var(--accent); margin-bottom: 0.5rem; }
+  .strategy-card ul { padding-left: 1.2rem; font-size: 0.9rem; }
+  .strategy-card li { margin-bottom: 0.3rem; }
+
+  /* ROADMAP */
+  .roadmap { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+  .roadmap-card { position: relative; }
+  .roadmap-card .year-badge {
+    display: inline-block; padding: 0.3rem 0.8rem; border-radius: 4px;
+    color: #fff; font-weight: 700; font-size: 0.9rem; margin-bottom: 0.5rem;
+  }
+  .roadmap-card .year-title { font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
+  .roadmap-card ul { padding-left: 1.2rem; font-size: 0.9rem; }
+
+  /* BADGE */
+  .badge {
+    display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px;
+    font-size: 0.75rem; font-weight: 600;
+  }
+  .badge-green { background: #DCFCE7; color: var(--green); }
+  .badge-amber { background: #FEF3C7; color: var(--amber); }
+
+  /* EXEC RATE */
+  .exec-row {
+    display: flex; align-items: center; gap: 0.8rem; padding: 0.5rem 0;
+    border-bottom: 1px solid var(--light-gray);
+  }
+  .exec-row .dept { width: 80px; font-size: 0.85rem; }
+  .exec-bar-bg {
+    flex: 1; height: 24px; background: var(--light-gray); border-radius: 12px;
+    overflow: hidden;
+  }
+  .exec-bar {
+    height: 100%; border-radius: 12px; background: var(--accent);
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 8px; color: #fff; font-size: 0.75rem; font-weight: 600;
+  }
+
+  /* CHART CONTAINER */
+  .chart-container { position: relative; max-height: 350px; margin-bottom: 1rem; }
+
+  /* INSIGHT */
+  .insight-list { list-style: none; padding: 0; }
+  .insight-list li {
+    padding: 0.5rem 0.8rem; margin-bottom: 0.4rem; border-radius: 6px;
+    font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .insight-list .warn { background: #FFF7ED; }
+  .insight-list .good { background: #F0FDF4; }
+  .insight-list .icon { font-size: 1.1rem; }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark-navy); color: var(--mid-gray); text-align: center;
+    padding: 2rem; font-size: 0.85rem;
+  }
+  footer strong { color: var(--light-blue); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 0 1rem; gap: 1rem; }
+    .nav-links { gap: 0.8rem; }
+    nav a { font-size: 0.75rem; }
+    .hero h1 { font-size: 1.8rem; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .swot-grid { grid-template-columns: 1fr; }
+    section { padding: 2rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><span>SeAH</span> Steel Analytics</div>
+  <div class="nav-links">
+    <a href="#kpi">KPI</a>
+    <a href="#profitability">수익성</a>
+    <a href="#market">시장동향</a>
+    <a href="#strategy">전략</a>
+    <a href="#plan">중장기계획</a>
+    <a href="#budget">예산</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>경영기획 직무역량 <span>포트폴리오</span></h1>
+  <p>세아제강 사업보고서(2023~2025) 실제 데이터 기반 분석</p>
+  <div class="hero-badges">
+    <span>데이터 분석</span>
+    <span>보고서 작성</span>
+    <span>전략적 사고</span>
+    <span>문제 해결</span>
+  </div>
+</div>
+
+<!-- SECTION 01 DIVIDER -->
+<div class="section-divider">
+  <div class="num">01</div>
+  <h2>연도별 경영실적 분석 보고</h2>
+  <p>Annual Business Performance Analysis</p>
+</div>
+
+<!-- KPI DASHBOARD -->
+<section id="kpi">
+  <h3>핵심 경영지표 대시보드 (2025년 실적)</h3>
+  <p class="subtitle">출처: 세아제강 사업보고서 제8기</p>
+
+  <div class="grid-4">
+    <div class="card card-orange kpi-card">
+      <div class="label">매출액</div>
+      <div class="value">14,848<span class="unit"> 억원</span></div>
+      <div class="change down">▼ 전년比 -17.9%</div>
+    </div>
+    <div class="card card-orange kpi-card">
+      <div class="label">영업이익률</div>
+      <div class="value">3.3<span class="unit"> %</span></div>
+      <div class="change down">▼ 전년比 -7.9%p</div>
+    </div>
+    <div class="card card-accent kpi-card">
+      <div class="label">생산실적</div>
+      <div class="value">79.4<span class="unit"> 만톤</span></div>
+      <div class="change down">생산능력 160만톤</div>
+    </div>
+    <div class="card card-green kpi-card">
+      <div class="label">평균 가동률</div>
+      <div class="value">84<span class="unit"> %</span></div>
+      <div class="change up">창원 93% 최고</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4 style="margin-bottom:0.8rem; font-size:1rem;">3개년 연결 실적 추이 (제6~8기)</h4>
+      <div class="chart-container"><canvas id="revenueChart"></canvas></div>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--accent);">
+      <h4 style="color:var(--accent); margin-bottom:0.8rem; font-size:1rem;">분석 인사이트</h4>
+      <ul class="insight-list">
+        <li class="warn"><span class="icon">⚠️</span> 매출 14,848억 → 전년比 17.9% 감소</li>
+        <li class="warn"><span class="icon">⚠️</span> 영업이익률 3.3% → 수익성 급락 (전년 11.2%)</li>
+        <li class="warn"><span class="icon">⚠️</span> 매출원가율 90.3% → 원가 부담 심화</li>
+        <li class="warn"><span class="icon">⚠️</span> HR Coil 가격 하락 (885→809천원/톤)</li>
+        <li class="good"><span class="icon">✅</span> 창원 가동률 93%로 최고 효율 유지</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROFITABILITY -->
+<section id="profitability">
+  <h3>수익성 분석 및 원가 구조</h3>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4 style="margin-bottom:0.8rem; font-size:1rem;">3개년 이익률 추이</h4>
+      <div class="chart-container"><canvas id="marginChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h4 style="margin-bottom:0.8rem; font-size:1rem;">매출 원가 구조 (2025)</h4>
+      <div class="chart-container"><canvas id="costChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card" style="overflow-x:auto;">
+    <h4 style="margin-bottom:0.8rem; font-size:1rem;">3개년 손익 비교 (연결 기준, 단위: 억원)</h4>
+    <table>
+      <thead>
+        <tr><th>구분</th><th>매출액</th><th>매출원가</th><th>판관비</th><th>영업이익</th><th>당기순이익</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2023 (제6기)</td><td>18,609</td><td>15,435</td><td>855</td><td><strong>2,319</strong></td><td>1,888</td></tr>
+        <tr><td>2024 (제7기)</td><td>18,094</td><td>15,110</td><td>955</td><td><strong>2,029</strong></td><td>1,371</td></tr>
+        <tr><td>2025 (제8기)</td><td class="text-red">14,848</td><td>13,415</td><td>937</td><td class="text-red"><strong>496</strong></td><td class="text-red">300</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SUMMARY -->
+<section>
+  <h3>2025년 실적 종합 평가 및 향후 전망</h3>
+  <div class="grid-2">
+    <div class="card card-navy">
+      <h4 style="color:var(--navy); margin-bottom:0.8rem;">2025년(제8기) 종합 평가</h4>
+      <ul class="insight-list">
+        <li class="warn"><span class="icon">⚠️</span> 매출 14,848억원 → 전년比 17.9% 감소</li>
+        <li class="warn"><span class="icon">⚠️</span> 영업이익률 3.3% → 전년比 7.9%p 급락</li>
+        <li class="warn"><span class="icon">⚠️</span> 매출원가율 90.3% → 원가 부담 가중</li>
+        <li class="good"><span class="icon">✅</span> EBITDA 848억원 → 현금창출력 유지</li>
+        <li class="good"><span class="icon">✅</span> 배당성향 52%, 주당 5,500원 주주환원 지속</li>
+      </ul>
+      <div style="margin-top:1rem; background:var(--pale-blue); padding:0.6rem 1rem; border-radius:6px; text-align:center;">
+        <strong style="color:var(--red);">종합 등급: C (개선 필요) — 수익성 회복 시급</strong>
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--steel-blue);">
+      <h4 style="color:var(--steel-blue); margin-bottom:0.8rem;">2026년 전망 및 핵심 과제</h4>
+      <div style="margin-bottom:1rem;">
+        <strong style="color:var(--accent); font-size:0.9rem;">수익성 회복</strong>
+        <p style="font-size:0.85rem; color:var(--text-mid);">원가율 90.3% → 85% 이하 목표<br>고부가 제품 믹스 확대, 원재료 조달 다변화</p>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <strong style="color:var(--accent); font-size:0.9rem;">리스크 요인</strong>
+        <p style="font-size:0.85rem; color:var(--text-mid);">철광석 $100/톤, 철스크랩 $330~370 변동성<br>원/달러 환율 1,421원대 고환율 지속</p>
+      </div>
+      <div>
+        <strong style="color:var(--accent); font-size:0.9rem;">성장 동력</strong>
+        <p style="font-size:0.85rem; color:var(--text-mid);">SeAH Wind 해상풍력 투자 (RCPS 1,479억원)<br>해외법인 확대 (SSUSA·SSV 등 7개국 81만톤)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 02 DIVIDER -->
+<div class="section-divider">
+  <div class="num">02</div>
+  <h2>사업환경 변화 분석 및 대응 방안</h2>
+  <p>Business Environment Analysis &amp; Response Strategy</p>
+</div>
+
+<!-- MARKET TRENDS -->
+<section id="market">
+  <h3>글로벌 철강 시장 동향</h3>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4 style="margin-bottom:0.8rem; font-size:1rem;">주요 원자재 가격 추이 (USD/톤)</h4>
+      <div class="chart-container"><canvas id="rawMaterialChart"></canvas></div>
+    </div>
+    <div>
+      <div class="card card-red" style="margin-bottom:1rem;">
+        <h4 style="color:var(--red); font-size:0.95rem;">국내 건설투자</h4>
+        <p style="font-size:0.85rem;">2024년 290.2조 (0.0%) → 2025년 264.7조 (<strong style="color:var(--red);">-8.8%</strong>) 감소</p>
+      </div>
+      <div class="card card-green" style="margin-bottom:1rem;">
+        <h4 style="color:var(--green); font-size:0.95rem;">중국산 수입 변화</h4>
+        <p style="font-size:0.85rem;">2024년 877만톤 → 2025년 620만톤 — 반덤핑 관세 효과 가시화</p>
+      </div>
+      <div class="card card-orange">
+        <h4 style="color:var(--orange); font-size:0.95rem;">환율 리스크</h4>
+        <p style="font-size:0.85rem;">2024 평균 1,363원 → 2025 평균 <strong style="color:var(--orange);">1,421원</strong> 고환율 지속</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SWOT -->
+  <h3>SWOT 분석</h3>
+  <div class="swot-grid">
+    <div class="swot-card swot-s">
+      <h4>S · 강점</h4>
+      <ul>
+        <li>전기로 기반 탄소저감 우위</li>
+        <li>해외 7개국 81만톤 글로벌 네트워크</li>
+      </ul>
+    </div>
+    <div class="swot-card swot-w">
+      <h4>W · 약점</h4>
+      <ul>
+        <li>원가율 90.3% 수익성 악화</li>
+        <li>가동률 49.6% (생산/능력)</li>
+      </ul>
+    </div>
+    <div class="swot-card swot-o">
+      <h4>O · 기회</h4>
+      <ul>
+        <li>반덤핑 관세 → 중국산 수입 감소</li>
+        <li>SeAH Wind 해상풍력 신성장</li>
+      </ul>
+    </div>
+    <div class="swot-card swot-t">
+      <h4>T · 위협</h4>
+      <ul>
+        <li>건설투자 -8.8% 내수 위축</li>
+        <li>HR Coil 가격 하락 추세</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- STRATEGY -->
+<section id="strategy">
+  <h3>전략적 대응 방안</h3>
+  <p class="subtitle">사업환경 변화에 따른 단기·중기 대응 전략</p>
+
+  <div class="grid-2">
+    <div class="card card-accent strategy-card">
+      <h4>💰 원가 구조 개선 (원가율 90.3%→85%)</h4>
+      <ul>
+        <li>철스크랩 조달 다변화 (국내외 소싱 최적화, $330~370 변동 대응)</li>
+        <li>에너지 효율 개선 (온실가스 64,078 tCO2-eq 감축 연계)</li>
+        <li>가동률 제고 (현 49.6% → 생산능력 160만톤 활용 극대화)</li>
+      </ul>
+    </div>
+    <div class="card card-accent strategy-card">
+      <h4>🌏 해외 사업 확대 (7개국 81만톤)</h4>
+      <ul>
+        <li>SSUSA(미국) OCTG 20만톤 — IRA 수혜 확대</li>
+        <li>SSV(베트남) ERW 24만톤 — 동남아 성장 거점</li>
+        <li>Inox Tech(이탈리아) — 유럽 특수관 시장 공략</li>
+      </ul>
+    </div>
+    <div class="card card-accent strategy-card">
+      <h4>⚡ 신성장 동력 (SeAH Wind)</h4>
+      <ul>
+        <li>해상풍력 모노파일 사업 — RCPS 투자 1,479억원</li>
+        <li>글로벌 해상풍력 시장 확대에 따른 선제 투자</li>
+        <li>친환경 에너지 전환 트렌드와 시너지</li>
+      </ul>
+    </div>
+    <div class="card card-accent strategy-card">
+      <h4>📊 ESG·주주환원 강화</h4>
+      <ul>
+        <li>배당성향 52%, 주당 5,500원 유지 → 주주 신뢰</li>
+        <li>전기로 기반 저탄소 생산 우위 적극 활용</li>
+        <li>R&D 38억원(매출 0.3%) → 고부가 제품 개발 확대</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 03 DIVIDER -->
+<div class="section-divider">
+  <div class="num">03</div>
+  <h2>중장기 경영계획 수립</h2>
+  <p>Mid/Long-term Strategic Plan (2026~2028)</p>
+</div>
+
+<!-- MID/LONG-TERM PLAN -->
+<section id="plan">
+  <h3>3개년 전략 로드맵</h3>
+
+  <div style="background:var(--navy); color:#fff; text-align:center; padding:0.8rem; border-radius:8px; margin-bottom:1.5rem; font-size:1.1rem; font-weight:700;">
+    비전: 글로벌 철강·에너지 소재 기업으로의 도약
+  </div>
+
+  <div class="roadmap">
+    <div class="card roadmap-card" style="border-top:3px solid var(--steel-blue);">
+      <span class="year-badge" style="background:var(--steel-blue);">2026</span>
+      <div class="year-title">수익성 회복</div>
+      <ul>
+        <li>원가율 85% 이하 목표</li>
+        <li>SeAH Wind 본격 가동</li>
+        <li>가동률 60% 이상 회복</li>
+      </ul>
+    </div>
+    <div class="card roadmap-card" style="border-top:3px solid var(--accent);">
+      <span class="year-badge" style="background:var(--accent);">2027</span>
+      <div class="year-title">성장 가속</div>
+      <ul>
+        <li>해외법인 매출 비중 확대</li>
+        <li>고부가 제품 믹스 강화</li>
+        <li>R&D 투자 확대</li>
+      </ul>
+    </div>
+    <div class="card roadmap-card" style="border-top:3px solid var(--navy);">
+      <span class="year-badge" style="background:var(--navy);">2028</span>
+      <div class="year-title">글로벌 도약</div>
+      <ul>
+        <li>글로벌 매출 비중 30%+</li>
+        <li>해상풍력 수익 본격화</li>
+        <li>매출 목표: 1.8조원</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="overflow-x:auto;">
+    <h4 style="margin-bottom:0.8rem; font-size:1rem;">핵심 KPI 목표</h4>
+    <table>
+      <thead>
+        <tr><th>KPI</th><th>2025 실적</th><th>2026 목표</th><th>2027 목표</th><th>2028 목표</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>매출액(조원)</td><td class="text-red">1.48</td><td>1.55</td><td>1.65</td><td><strong style="color:var(--accent);">1.80</strong></td></tr>
+        <tr><td>영업이익률(%)</td><td class="text-red">3.3</td><td>6.0</td><td>8.0</td><td><strong style="color:var(--accent);">10.0</strong></td></tr>
+        <tr><td>ROE(%)</td><td class="text-red">2.7</td><td>5.0</td><td>7.0</td><td><strong style="color:var(--accent);">10.0</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SECTION 04 DIVIDER -->
+<div class="section-divider">
+  <div class="num">04</div>
+  <h2>투자예산 및 회의체 운영관리</h2>
+  <p>Budget Execution &amp; Meeting Management</p>
+</div>
+
+<!-- BUDGET -->
+<section id="budget">
+  <h3>부문별 예산 집행 현황</h3>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4 style="margin-bottom:0.8rem; font-size:1rem;">예산 vs 집행 (억원)</h4>
+      <div class="chart-container"><canvas id="budgetChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h4 style="margin-bottom:0.8rem; font-size:1rem;">집행률 현황</h4>
+      <div class="exec-row">
+        <span class="dept">설비투자</span>
+        <div class="exec-bar-bg"><div class="exec-bar" style="width:84%;">84.0%</div></div>
+        <span class="badge badge-green">양호</span>
+      </div>
+      <div class="exec-row">
+        <span class="dept">R&D</span>
+        <div class="exec-bar-bg"><div class="exec-bar" style="width:84.4%;">84.4%</div></div>
+        <span class="badge badge-green">양호</span>
+      </div>
+      <div class="exec-row">
+        <span class="dept">해외사업</span>
+        <div class="exec-bar-bg"><div class="exec-bar" style="width:82.5%;">82.5%</div></div>
+        <span class="badge badge-green">양호</span>
+      </div>
+      <div class="exec-row">
+        <span class="dept">IT/디지털</span>
+        <div class="exec-bar-bg"><div class="exec-bar" style="width:86.7%;">86.7%</div></div>
+        <span class="badge badge-green">정상</span>
+      </div>
+      <div class="exec-row">
+        <span class="dept">인력개발</span>
+        <div class="exec-bar-bg"><div class="exec-bar" style="width:87.5%;">87.5%</div></div>
+        <span class="badge badge-green">정상</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="overflow-x:auto;">
+    <h4 style="margin-bottom:0.8rem; font-size:1rem;">주요 회의체 운영 현황</h4>
+    <table>
+      <thead>
+        <tr><th>회의체</th><th>주기</th><th>참석자</th><th>주요 안건</th><th>의사결정 사항</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>경영전략회의</td><td>월 1회</td><td>CEO, C-Level</td><td>경영실적 리뷰</td><td>전략 방향 승인</td></tr>
+        <tr><td>투자심의위원회</td><td>분기 1회</td><td>CFO, 사업부장</td><td>투자안 심의</td><td>투자 승인/보류</td></tr>
+        <tr><td>실적점검회의</td><td>주 1회</td><td>팀장급 이상</td><td>주간 실적 점검</td><td>실행과제 배분</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>세아제강 경영기획 직무역량 포트폴리오</strong> | 2026년 3월</p>
+  <p style="margin-top:0.5rem;">데이터 기반 분석 역량으로 경영기획의 핵심 가치를 실현하겠습니다.</p>
+</footer>
+
+<script>
+// Color palette
+const COLORS = {
+  navy: '#1B2A4A', steelBlue: '#3B6B9C', accent: '#2E86AB',
+  lightBlue: '#A8D0E6', orange: '#EA580C', red: '#DC2626',
+  green: '#16A34A', midGray: '#94A3B8', textMid: '#64748B',
+};
+
+const defaultFont = { family: "'Segoe UI', 'Malgun Gothic', sans-serif" };
+Chart.defaults.font = { ...Chart.defaults.font, ...defaultFont };
+
+// 1. Revenue Chart (Bar)
+new Chart(document.getElementById('revenueChart'), {
+  type: 'bar',
+  data: {
+    labels: ['2023 (제6기)', '2024 (제7기)', '2025 (제8기)'],
+    datasets: [
+      { label: '매출액(억원)', data: [18609, 18094, 14848], backgroundColor: COLORS.steelBlue },
+      { label: '영업이익(억원)', data: [2319, 2029, 496], backgroundColor: COLORS.accent },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom' } },
+    scales: { y: { beginAtZero: true } }
+  }
+});
+
+// 2. Margin Chart (Line)
+new Chart(document.getElementById('marginChart'), {
+  type: 'line',
+  data: {
+    labels: ['2023 (제6기)', '2024 (제7기)', '2025 (제8기)'],
+    datasets: [
+      { label: '매출총이익률(%)', data: [17.1, 16.5, 9.7], borderColor: COLORS.accent, backgroundColor: COLORS.accent + '20', fill: true, tension: 0.3 },
+      { label: '영업이익률(%)', data: [12.5, 11.2, 3.3], borderColor: COLORS.steelBlue, backgroundColor: COLORS.steelBlue + '20', fill: true, tension: 0.3 },
+      { label: '순이익률(%)', data: [10.1, 7.6, 2.0], borderColor: COLORS.orange, backgroundColor: COLORS.orange + '20', fill: true, tension: 0.3 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom' } },
+    scales: { y: { beginAtZero: true } }
+  }
+});
+
+// 3. Cost Structure (Doughnut)
+new Chart(document.getElementById('costChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['매출원가 90.3%', '판관비 6.3%', '영업이익 3.3%'],
+    datasets: [{
+      data: [90.3, 6.3, 3.3],
+      backgroundColor: [COLORS.navy, COLORS.steelBlue, COLORS.accent],
+      borderWidth: 2, borderColor: '#fff',
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom' } }
+  }
+});
+
+// 4. Raw Material Chart (Line)
+new Chart(document.getElementById('rawMaterialChart'), {
+  type: 'line',
+  data: {
+    labels: ['2024 Q1', '2024 Q2', '2024 Q3', '2024 Q4', '2025 평균'],
+    datasets: [
+      { label: '철광석($/dmt)', data: [120, 110, 105, 100, 100], borderColor: COLORS.accent, tension: 0.3, pointRadius: 4 },
+      { label: '철스크랩($/톤)', data: [371, 355, 340, 322, 350], borderColor: COLORS.orange, tension: 0.3, pointRadius: 4 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom' } },
+    scales: { y: { beginAtZero: false } }
+  }
+});
+
+// 5. Budget Chart (Bar)
+new Chart(document.getElementById('budgetChart'), {
+  type: 'bar',
+  data: {
+    labels: ['설비투자', 'R&D', '해외사업', 'IT/디지털', '인력개발'],
+    datasets: [
+      { label: '예산', data: [500, 45, 200, 60, 40], backgroundColor: COLORS.steelBlue },
+      { label: '집행', data: [420, 38, 165, 52, 35], backgroundColor: COLORS.accent },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom' } },
+    scales: { y: { beginAtZero: true } }
+  }
+});
+
+// Smooth scroll
+document.querySelectorAll('nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
