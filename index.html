@@ -375,7 +375,7 @@
     <div class="card">
       <h4 style="margin-bottom:0.8rem; font-size:1rem;">주요 원자재 가격 추이 (USD/톤)</h4>
       <div class="chart-container"><canvas id="rawMaterialChart"></canvas></div>
-      <p class="data-note">Q1·Q4 실제 시장가 기반, Q2·Q3는 추세 보간 추정치</p>
+      <p class="data-note">출처: IndexMundi(철광석), Intratec/FOB Rotterdam(철스크랩) 분기 평균</p>
     </div>
     <div>
       <div class="card card-red" style="margin-bottom:1rem;">
@@ -667,8 +667,8 @@ new Chart(document.getElementById('rawMaterialChart'), {
   data: {
     labels: ['2024 Q1', '2024 Q2', '2024 Q3', '2024 Q4', '2025 평균'],
     datasets: [
-      { label: '철광석($/dmt)', data: [120, 110, 105, 100, 100], borderColor: COLORS.accent, tension: 0.3, pointRadius: 4 },
-      { label: '철스크랩($/톤)', data: [371, 355, 340, 322, 350], borderColor: COLORS.orange, tension: 0.3, pointRadius: 4 },
+      { label: '철광석($/dmt)', data: [130, 119, 100, 100, 100], borderColor: COLORS.accent, tension: 0.3, pointRadius: 4 },
+      { label: '철스크랩($/톤)', data: [371, 350, 341, 322, 350], borderColor: COLORS.orange, tension: 0.3, pointRadius: 4 },
     ]
   },
   options: {
